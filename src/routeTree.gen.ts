@@ -13,46 +13,46 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as BooksImport } from './routes/books'
+import { Route as AboutImport } from './routes/about'
+import { Route as IndexImport } from './routes/index'
+import { Route as BooksBookIdImport } from './routes/books/$bookId'
 
 // Create Virtual Routes
 
-const BooksLazyImport = createFileRoute('/books')()
-const AboutLazyImport = createFileRoute('/about')()
-const IndexLazyImport = createFileRoute('/')()
 const BooksIndexLazyImport = createFileRoute('/books/')()
-const BooksBookIdLazyImport = createFileRoute('/books/$bookId')()
 
 // Create/Update Routes
 
-const BooksLazyRoute = BooksLazyImport.update({
+const BooksRoute = BooksImport.update({
   id: '/books',
   path: '/books',
   getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/books.lazy').then((d) => d.Route))
+} as any)
 
-const AboutLazyRoute = AboutLazyImport.update({
+const AboutRoute = AboutImport.update({
   id: '/about',
   path: '/about',
   getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/about.lazy').then((d) => d.Route))
+} as any)
 
-const IndexLazyRoute = IndexLazyImport.update({
+const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+} as any)
 
 const BooksIndexLazyRoute = BooksIndexLazyImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => BooksLazyRoute,
+  getParentRoute: () => BooksRoute,
 } as any).lazy(() => import('./routes/books/index.lazy').then((d) => d.Route))
 
-const BooksBookIdLazyRoute = BooksBookIdLazyImport.update({
+const BooksBookIdRoute = BooksBookIdImport.update({
   id: '/$bookId',
   path: '/$bookId',
-  getParentRoute: () => BooksLazyRoute,
-} as any).lazy(() => import('./routes/books/$bookId.lazy').then((d) => d.Route))
+  getParentRoute: () => BooksRoute,
+} as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -62,77 +62,75 @@ declare module '@tanstack/react-router' {
       id: '/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexLazyImport
+      preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
     '/about': {
       id: '/about'
       path: '/about'
       fullPath: '/about'
-      preLoaderRoute: typeof AboutLazyImport
+      preLoaderRoute: typeof AboutImport
       parentRoute: typeof rootRoute
     }
     '/books': {
       id: '/books'
       path: '/books'
       fullPath: '/books'
-      preLoaderRoute: typeof BooksLazyImport
+      preLoaderRoute: typeof BooksImport
       parentRoute: typeof rootRoute
     }
     '/books/$bookId': {
       id: '/books/$bookId'
       path: '/$bookId'
       fullPath: '/books/$bookId'
-      preLoaderRoute: typeof BooksBookIdLazyImport
-      parentRoute: typeof BooksLazyImport
+      preLoaderRoute: typeof BooksBookIdImport
+      parentRoute: typeof BooksImport
     }
     '/books/': {
       id: '/books/'
       path: '/'
       fullPath: '/books/'
       preLoaderRoute: typeof BooksIndexLazyImport
-      parentRoute: typeof BooksLazyImport
+      parentRoute: typeof BooksImport
     }
   }
 }
 
 // Create and export the route tree
 
-interface BooksLazyRouteChildren {
-  BooksBookIdLazyRoute: typeof BooksBookIdLazyRoute
+interface BooksRouteChildren {
+  BooksBookIdRoute: typeof BooksBookIdRoute
   BooksIndexLazyRoute: typeof BooksIndexLazyRoute
 }
 
-const BooksLazyRouteChildren: BooksLazyRouteChildren = {
-  BooksBookIdLazyRoute: BooksBookIdLazyRoute,
+const BooksRouteChildren: BooksRouteChildren = {
+  BooksBookIdRoute: BooksBookIdRoute,
   BooksIndexLazyRoute: BooksIndexLazyRoute,
 }
 
-const BooksLazyRouteWithChildren = BooksLazyRoute._addFileChildren(
-  BooksLazyRouteChildren,
-)
+const BooksRouteWithChildren = BooksRoute._addFileChildren(BooksRouteChildren)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexLazyRoute
-  '/about': typeof AboutLazyRoute
-  '/books': typeof BooksLazyRouteWithChildren
-  '/books/$bookId': typeof BooksBookIdLazyRoute
+  '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/books': typeof BooksRouteWithChildren
+  '/books/$bookId': typeof BooksBookIdRoute
   '/books/': typeof BooksIndexLazyRoute
 }
 
 export interface FileRoutesByTo {
-  '/': typeof IndexLazyRoute
-  '/about': typeof AboutLazyRoute
-  '/books/$bookId': typeof BooksBookIdLazyRoute
+  '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/books/$bookId': typeof BooksBookIdRoute
   '/books': typeof BooksIndexLazyRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
-  '/': typeof IndexLazyRoute
-  '/about': typeof AboutLazyRoute
-  '/books': typeof BooksLazyRouteWithChildren
-  '/books/$bookId': typeof BooksBookIdLazyRoute
+  '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/books': typeof BooksRouteWithChildren
+  '/books/$bookId': typeof BooksBookIdRoute
   '/books/': typeof BooksIndexLazyRoute
 }
 
@@ -146,15 +144,15 @@ export interface FileRouteTypes {
 }
 
 export interface RootRouteChildren {
-  IndexLazyRoute: typeof IndexLazyRoute
-  AboutLazyRoute: typeof AboutLazyRoute
-  BooksLazyRoute: typeof BooksLazyRouteWithChildren
+  IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  BooksRoute: typeof BooksRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexLazyRoute: IndexLazyRoute,
-  AboutLazyRoute: AboutLazyRoute,
-  BooksLazyRoute: BooksLazyRouteWithChildren,
+  IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  BooksRoute: BooksRouteWithChildren,
 }
 
 export const routeTree = rootRoute
@@ -173,20 +171,20 @@ export const routeTree = rootRoute
       ]
     },
     "/": {
-      "filePath": "index.lazy.tsx"
+      "filePath": "index.tsx"
     },
     "/about": {
-      "filePath": "about.lazy.tsx"
+      "filePath": "about.tsx"
     },
     "/books": {
-      "filePath": "books.lazy.tsx",
+      "filePath": "books.tsx",
       "children": [
         "/books/$bookId",
         "/books/"
       ]
     },
     "/books/$bookId": {
-      "filePath": "books/$bookId.lazy.tsx",
+      "filePath": "books/$bookId.tsx",
       "parent": "/books"
     },
     "/books/": {
