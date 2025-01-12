@@ -14,10 +14,10 @@ function RouteComponent() {
       </Link>{' '}
       <Link
         to="/books/$bookId"
-        params={{ bookId: '4' }}
+        params={{ bookId: '2' }}
         className="[&.active]:font-bold"
       >
-        to book 4
+        to book 2
       </Link>
       <Outlet />
     </>
