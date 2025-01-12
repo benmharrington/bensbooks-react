@@ -8,19 +8,14 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { createFileRoute } from '@tanstack/react-router'
-
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as BooksImport } from './routes/books'
 import { Route as AboutImport } from './routes/about'
 import { Route as IndexImport } from './routes/index'
+import { Route as BooksIndexImport } from './routes/books/index'
 import { Route as BooksBookIdImport } from './routes/books/$bookId'
-
-// Create Virtual Routes
-
-const BooksIndexLazyImport = createFileRoute('/books/')()
 
 // Create/Update Routes
 
@@ -42,11 +37,11 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const BooksIndexLazyRoute = BooksIndexLazyImport.update({
+const BooksIndexRoute = BooksIndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => BooksRoute,
-} as any).lazy(() => import('./routes/books/index.lazy').then((d) => d.Route))
+} as any)
 
 const BooksBookIdRoute = BooksBookIdImport.update({
   id: '/$bookId',
@@ -90,7 +85,7 @@ declare module '@tanstack/react-router' {
       id: '/books/'
       path: '/'
       fullPath: '/books/'
-      preLoaderRoute: typeof BooksIndexLazyImport
+      preLoaderRoute: typeof BooksIndexImport
       parentRoute: typeof BooksImport
     }
   }
@@ -100,12 +95,12 @@ declare module '@tanstack/react-router' {
 
 interface BooksRouteChildren {
   BooksBookIdRoute: typeof BooksBookIdRoute
-  BooksIndexLazyRoute: typeof BooksIndexLazyRoute
+  BooksIndexRoute: typeof BooksIndexRoute
 }
 
 const BooksRouteChildren: BooksRouteChildren = {
   BooksBookIdRoute: BooksBookIdRoute,
-  BooksIndexLazyRoute: BooksIndexLazyRoute,
+  BooksIndexRoute: BooksIndexRoute,
 }
 
 const BooksRouteWithChildren = BooksRoute._addFileChildren(BooksRouteChildren)
@@ -115,14 +110,14 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/books': typeof BooksRouteWithChildren
   '/books/$bookId': typeof BooksBookIdRoute
-  '/books/': typeof BooksIndexLazyRoute
+  '/books/': typeof BooksIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/books/$bookId': typeof BooksBookIdRoute
-  '/books': typeof BooksIndexLazyRoute
+  '/books': typeof BooksIndexRoute
 }
 
 export interface FileRoutesById {
@@ -131,7 +126,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/books': typeof BooksRouteWithChildren
   '/books/$bookId': typeof BooksBookIdRoute
-  '/books/': typeof BooksIndexLazyRoute
+  '/books/': typeof BooksIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -188,7 +183,7 @@ export const routeTree = rootRoute
       "parent": "/books"
     },
     "/books/": {
-      "filePath": "books/index.lazy.tsx",
+      "filePath": "books/index.tsx",
       "parent": "/books"
     }
   }

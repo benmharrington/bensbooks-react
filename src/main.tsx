@@ -3,9 +3,9 @@ import { createRoot } from 'react-dom/client'
 import { RouterProvider, createRouter } from '@tanstack/react-router';
 import './index.css'
 
-// TODO: pull books index from backend (using loader)
-// TODO: pull specific book from backend (using loader)
+// TODO: make github repo and start defining feature branches w/ prs
 // TODO: add mantine
+// TODO: add error handling from api calls
 // TODO: add logins/auth
 
 
