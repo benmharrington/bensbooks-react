@@ -5,7 +5,6 @@ export const Route = createFileRoute('/')({
 })
 
 function Index() {
-  console.log(import.meta.env.MODE)
   return (
     <div className="p-2">
       <h3>Welcome Home!</h3>

@@ -2,10 +2,10 @@ import { createFileRoute, Link, Outlet } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/books')({
   // loader: ({ params }) => fetchBooks(params.bookId),
-  component: RouteComponent,
+  component: Books,
 })
 
-function RouteComponent() {
+function Books() {
   return (
     <>
       <div>Hello "/books"!</div>

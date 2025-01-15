@@ -4,23 +4,23 @@ import { Book } from '../../types/database';
 
 export const Route = createFileRoute('/books/')({
   loader: () => fetchBooks(),
-  component: RouteComponent,
+  component: BooksIndex,
 })
 
-function RouteComponent() {
+function BooksIndex() {
   const books: Book[] = Route.useLoaderData();
 
   return (
     <>
       <h3>Books</h3>
-      {books.map((book) => (
+      {books.map((book: Book) => (
         <div key={book.id}>
           <Link
             to='/books/$bookId'
             params={{ bookId: book.id }}
             className="[&.active]:font-bold"
           >
-            {book.name}
+            {book.title}
           </Link>
         </div>
       ))}
