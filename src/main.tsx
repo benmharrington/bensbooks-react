@@ -4,17 +4,15 @@ import { RouterProvider, createRouter } from '@tanstack/react-router';
 import '@mantine/core/styles.css';
 import { MantineProvider } from '@mantine/core';
 
-// TODO: add a synopsis to existing book
-// TODO: edit a synopsis of an existing book
-// TODO: see all synopses of a book - & user who made them
-// TODO: delete a synopsis of an existing book
 // TODO: add a new book
-// TODO: edit an existing book (description, author, etc);
 // TODO: delete an existing book
 // TODO: add a new author
 // TODO: see all books by author
 // TODO: add error handling from api calls
 // TODO: add logins/auth
+// TODO: edit a synopsis of an existing book - same author or admins only
+// TODO: delete a synopsis of an existing book - same author or admins only
+// TODO: edit an existing book (description, author, etc) - admins only
 // TODO: add restrictions for updating/deleting synopses/books/authors if not logged in etc.
 // TODO: make it look nice - mobile
 // TODO: make it look nice - desktop
@@ -24,6 +22,7 @@ import { MantineProvider } from '@mantine/core';
 // TODO: search/pagination of authors
 // TODO: handle multiple/different versions/publications of specific books - e.g. different editions (maybe w/ books api?)
 // TODO: google books api?
+// TODO: voting/rating of synopses
 
 
 

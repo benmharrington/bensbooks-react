@@ -22,6 +22,8 @@ import { Route as AuthorsIndexImport } from './routes/authors/index'
 import { Route as SynopsesSynopsisIdImport } from './routes/synopses/$synopsisId'
 import { Route as BooksBookIdImport } from './routes/books/$bookId'
 import { Route as AuthorsAuthorIdImport } from './routes/authors/$authorId'
+import { Route as BooksBookIdSynopsesImport } from './routes/books/$bookId.synopses'
+import { Route as BooksBookIdSynopsesCreateImport } from './routes/books/$bookId.synopses_.create'
 
 // Create/Update Routes
 
@@ -89,6 +91,18 @@ const AuthorsAuthorIdRoute = AuthorsAuthorIdImport.update({
   id: '/$authorId',
   path: '/$authorId',
   getParentRoute: () => AuthorsRoute,
+} as any)
+
+const BooksBookIdSynopsesRoute = BooksBookIdSynopsesImport.update({
+  id: '/synopses',
+  path: '/synopses',
+  getParentRoute: () => BooksBookIdRoute,
+} as any)
+
+const BooksBookIdSynopsesCreateRoute = BooksBookIdSynopsesCreateImport.update({
+  id: '/synopses_/create',
+  path: '/synopses/create',
+  getParentRoute: () => BooksBookIdRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -172,6 +186,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SynopsesIndexImport
       parentRoute: typeof SynopsesImport
     }
+    '/books/$bookId/synopses': {
+      id: '/books/$bookId/synopses'
+      path: '/synopses'
+      fullPath: '/books/$bookId/synopses'
+      preLoaderRoute: typeof BooksBookIdSynopsesImport
+      parentRoute: typeof BooksBookIdImport
+    }
+    '/books/$bookId/synopses_/create': {
+      id: '/books/$bookId/synopses_/create'
+      path: '/synopses/create'
+      fullPath: '/books/$bookId/synopses/create'
+      preLoaderRoute: typeof BooksBookIdSynopsesCreateImport
+      parentRoute: typeof BooksBookIdImport
+    }
   }
 }
 
@@ -190,13 +218,27 @@ const AuthorsRouteChildren: AuthorsRouteChildren = {
 const AuthorsRouteWithChildren =
   AuthorsRoute._addFileChildren(AuthorsRouteChildren)
 
+interface BooksBookIdRouteChildren {
+  BooksBookIdSynopsesRoute: typeof BooksBookIdSynopsesRoute
+  BooksBookIdSynopsesCreateRoute: typeof BooksBookIdSynopsesCreateRoute
+}
+
+const BooksBookIdRouteChildren: BooksBookIdRouteChildren = {
+  BooksBookIdSynopsesRoute: BooksBookIdSynopsesRoute,
+  BooksBookIdSynopsesCreateRoute: BooksBookIdSynopsesCreateRoute,
+}
+
+const BooksBookIdRouteWithChildren = BooksBookIdRoute._addFileChildren(
+  BooksBookIdRouteChildren,
+)
+
 interface BooksRouteChildren {
-  BooksBookIdRoute: typeof BooksBookIdRoute
+  BooksBookIdRoute: typeof BooksBookIdRouteWithChildren
   BooksIndexRoute: typeof BooksIndexRoute
 }
 
 const BooksRouteChildren: BooksRouteChildren = {
-  BooksBookIdRoute: BooksBookIdRoute,
+  BooksBookIdRoute: BooksBookIdRouteWithChildren,
   BooksIndexRoute: BooksIndexRoute,
 }
 
@@ -223,22 +265,26 @@ export interface FileRoutesByFullPath {
   '/books': typeof BooksRouteWithChildren
   '/synopses': typeof SynopsesRouteWithChildren
   '/authors/$authorId': typeof AuthorsAuthorIdRoute
-  '/books/$bookId': typeof BooksBookIdRoute
+  '/books/$bookId': typeof BooksBookIdRouteWithChildren
   '/synopses/$synopsisId': typeof SynopsesSynopsisIdRoute
   '/authors/': typeof AuthorsIndexRoute
   '/books/': typeof BooksIndexRoute
   '/synopses/': typeof SynopsesIndexRoute
+  '/books/$bookId/synopses': typeof BooksBookIdSynopsesRoute
+  '/books/$bookId/synopses/create': typeof BooksBookIdSynopsesCreateRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/authors/$authorId': typeof AuthorsAuthorIdRoute
-  '/books/$bookId': typeof BooksBookIdRoute
+  '/books/$bookId': typeof BooksBookIdRouteWithChildren
   '/synopses/$synopsisId': typeof SynopsesSynopsisIdRoute
   '/authors': typeof AuthorsIndexRoute
   '/books': typeof BooksIndexRoute
   '/synopses': typeof SynopsesIndexRoute
+  '/books/$bookId/synopses': typeof BooksBookIdSynopsesRoute
+  '/books/$bookId/synopses/create': typeof BooksBookIdSynopsesCreateRoute
 }
 
 export interface FileRoutesById {
@@ -249,11 +295,13 @@ export interface FileRoutesById {
   '/books': typeof BooksRouteWithChildren
   '/synopses': typeof SynopsesRouteWithChildren
   '/authors/$authorId': typeof AuthorsAuthorIdRoute
-  '/books/$bookId': typeof BooksBookIdRoute
+  '/books/$bookId': typeof BooksBookIdRouteWithChildren
   '/synopses/$synopsisId': typeof SynopsesSynopsisIdRoute
   '/authors/': typeof AuthorsIndexRoute
   '/books/': typeof BooksIndexRoute
   '/synopses/': typeof SynopsesIndexRoute
+  '/books/$bookId/synopses': typeof BooksBookIdSynopsesRoute
+  '/books/$bookId/synopses_/create': typeof BooksBookIdSynopsesCreateRoute
 }
 
 export interface FileRouteTypes {
@@ -270,6 +318,8 @@ export interface FileRouteTypes {
     | '/authors/'
     | '/books/'
     | '/synopses/'
+    | '/books/$bookId/synopses'
+    | '/books/$bookId/synopses/create'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -280,6 +330,8 @@ export interface FileRouteTypes {
     | '/authors'
     | '/books'
     | '/synopses'
+    | '/books/$bookId/synopses'
+    | '/books/$bookId/synopses/create'
   id:
     | '__root__'
     | '/'
@@ -293,6 +345,8 @@ export interface FileRouteTypes {
     | '/authors/'
     | '/books/'
     | '/synopses/'
+    | '/books/$bookId/synopses'
+    | '/books/$bookId/synopses_/create'
   fileRoutesById: FileRoutesById
 }
 
@@ -362,7 +416,11 @@ export const routeTree = rootRoute
     },
     "/books/$bookId": {
       "filePath": "books/$bookId.tsx",
-      "parent": "/books"
+      "parent": "/books",
+      "children": [
+        "/books/$bookId/synopses",
+        "/books/$bookId/synopses_/create"
+      ]
     },
     "/synopses/$synopsisId": {
       "filePath": "synopses/$synopsisId.tsx",
@@ -379,6 +437,14 @@ export const routeTree = rootRoute
     "/synopses/": {
       "filePath": "synopses/index.tsx",
       "parent": "/synopses"
+    },
+    "/books/$bookId/synopses": {
+      "filePath": "books/$bookId.synopses.tsx",
+      "parent": "/books/$bookId"
+    },
+    "/books/$bookId/synopses_/create": {
+      "filePath": "books/$bookId.synopses_.create.tsx",
+      "parent": "/books/$bookId"
     }
   }
 }

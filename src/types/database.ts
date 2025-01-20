@@ -9,6 +9,8 @@ export interface Book {
   id: string;
   title: string;
   author: Author;
+  current_synopsis: Synopsis;
+  synopses: Synopsis[];
 }
 
 export interface Author {

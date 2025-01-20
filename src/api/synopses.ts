@@ -14,3 +14,20 @@ export async function fetchSynopsis(synopsisId: string): Promise<string> {
   if (!res.ok) throw new Error(`Failed to fetch synopsis ${synopsisId}, in fetchBook`);
   return await res.json();
 }
+
+// POST synopses
+export async function createSynopsis(bookId: string, content: string): Promise<string> {
+  const res = await fetch(`${import.meta.env.VITE_API_URL}/synopses`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      book_id: bookId,
+      content,
+    }),
+  });
+
+  if (!res.ok) throw new Error('Failed to create synopsis');
+  return await res.json();
+}

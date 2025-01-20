@@ -19,7 +19,7 @@ function SynopsisPage() {
       <p>It is for book <Link to='/books/$bookId' params={{ bookId: synopsis.book.id }}>{synopsis.book.title}</Link>.</p>
       <p>{synopsis.content}</p>
       <p>{parseDateFull(synopsis.created_at)} by {synopsis?.user?.name ?? 'an anonymous account'}.</p>
-      {/* implement user pages */}
+      {/* TODO: implement user pages */}
       {/* <Link to='/authors/$authorId' params={{ authorId: synopsis.user.id }}>Go to user</Link> */}
     </>
   )
