@@ -13,6 +13,9 @@ export default function Header() {
       <Link to='/books'>
         Books
       </Link>{' '}
+      <Link to='/authors'>
+        Authors
+      </Link>{' '}
       <Link to='/synopses'>
         All Synopses
       </Link>

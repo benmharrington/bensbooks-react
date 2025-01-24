@@ -19,7 +19,6 @@ export const Route = createFileRoute('/books/$bookId')({
 
 function BookPage() {
   const book: Book = Route.useLoaderData();
-  console.log(book);
 
   return (
     <>
@@ -30,7 +29,7 @@ function BookPage() {
         The title of the book is {book.title}
       </p>
       <p>
-        The author of the book is {book.author.name}
+        The author of the book is <Link to='/authors/$authorId' params={{ authorId: book.author.id }}>{book.author.name}</Link>
       </p>
       <p>{book.current_synopsis?.content ?? 'Sorry, no synopses for this book found.'}</p>
       {book.current_synopsis?.user ? <p>{parseDateFull(book.current_synopsis.created_at)} by {book.current_synopsis?.user?.name ?? 'an anonymous account'}.</p> : null}
@@ -38,8 +37,6 @@ function BookPage() {
       {/* <Link to='/authors/$authorId' params={{ authorId: book.current_synopsis.user.id }}>Go to user</Link> */}
       <br />
       {/* TODO: implement below - (default book.current_synopsis) */}
-      <Link to='/authors/$authorId' params={{ authorId: book.author.id }}>Go to author</Link>
-      <br />
       <Link to='/books/$bookId/synopses' params={{ bookId: book.id }}>See all synopses created for this book</Link>
       <Outlet />
     </>

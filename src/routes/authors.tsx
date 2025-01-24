@@ -7,17 +7,18 @@ export const Route = createFileRoute('/authors')({
 function Authors() {
   return (
     <>
-      <div>Hello "/authors"!</div>
-      <Link to="/authors" className="[&.active]:font-bold">
+      <div>Hello '/authors'!</div>
+      <Link to='/authors' className='[&.active]:font-bold'>
         to author index
       </Link>{' '}
       <Link
-        to="/authors/$authorId"
+        to='/authors/$authorId'
         params={{ authorId: '2' }}
-        className="[&.active]:font-bold"
+        className='[&.active]:font-bold'
       >
         to author 1
-      </Link>
+      </Link>{' '}
+      <Link to='/authors/new'>Create new author</Link>
       <Outlet />
     </>
   )

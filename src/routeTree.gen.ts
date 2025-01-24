@@ -20,7 +20,9 @@ import { Route as SynopsesIndexImport } from './routes/synopses/index'
 import { Route as BooksIndexImport } from './routes/books/index'
 import { Route as AuthorsIndexImport } from './routes/authors/index'
 import { Route as SynopsesSynopsisIdImport } from './routes/synopses/$synopsisId'
+import { Route as BooksNewImport } from './routes/books/new'
 import { Route as BooksBookIdImport } from './routes/books/$bookId'
+import { Route as AuthorsNewImport } from './routes/authors/new'
 import { Route as AuthorsAuthorIdImport } from './routes/authors/$authorId'
 import { Route as BooksBookIdSynopsesImport } from './routes/books/$bookId.synopses'
 import { Route as BooksBookIdSynopsesCreateImport } from './routes/books/$bookId.synopses_.create'
@@ -81,10 +83,22 @@ const SynopsesSynopsisIdRoute = SynopsesSynopsisIdImport.update({
   getParentRoute: () => SynopsesRoute,
 } as any)
 
+const BooksNewRoute = BooksNewImport.update({
+  id: '/new',
+  path: '/new',
+  getParentRoute: () => BooksRoute,
+} as any)
+
 const BooksBookIdRoute = BooksBookIdImport.update({
   id: '/$bookId',
   path: '/$bookId',
   getParentRoute: () => BooksRoute,
+} as any)
+
+const AuthorsNewRoute = AuthorsNewImport.update({
+  id: '/new',
+  path: '/new',
+  getParentRoute: () => AuthorsRoute,
 } as any)
 
 const AuthorsAuthorIdRoute = AuthorsAuthorIdImport.update({
@@ -151,11 +165,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthorsAuthorIdImport
       parentRoute: typeof AuthorsImport
     }
+    '/authors/new': {
+      id: '/authors/new'
+      path: '/new'
+      fullPath: '/authors/new'
+      preLoaderRoute: typeof AuthorsNewImport
+      parentRoute: typeof AuthorsImport
+    }
     '/books/$bookId': {
       id: '/books/$bookId'
       path: '/$bookId'
       fullPath: '/books/$bookId'
       preLoaderRoute: typeof BooksBookIdImport
+      parentRoute: typeof BooksImport
+    }
+    '/books/new': {
+      id: '/books/new'
+      path: '/new'
+      fullPath: '/books/new'
+      preLoaderRoute: typeof BooksNewImport
       parentRoute: typeof BooksImport
     }
     '/synopses/$synopsisId': {
@@ -207,11 +235,13 @@ declare module '@tanstack/react-router' {
 
 interface AuthorsRouteChildren {
   AuthorsAuthorIdRoute: typeof AuthorsAuthorIdRoute
+  AuthorsNewRoute: typeof AuthorsNewRoute
   AuthorsIndexRoute: typeof AuthorsIndexRoute
 }
 
 const AuthorsRouteChildren: AuthorsRouteChildren = {
   AuthorsAuthorIdRoute: AuthorsAuthorIdRoute,
+  AuthorsNewRoute: AuthorsNewRoute,
   AuthorsIndexRoute: AuthorsIndexRoute,
 }
 
@@ -234,11 +264,13 @@ const BooksBookIdRouteWithChildren = BooksBookIdRoute._addFileChildren(
 
 interface BooksRouteChildren {
   BooksBookIdRoute: typeof BooksBookIdRouteWithChildren
+  BooksNewRoute: typeof BooksNewRoute
   BooksIndexRoute: typeof BooksIndexRoute
 }
 
 const BooksRouteChildren: BooksRouteChildren = {
   BooksBookIdRoute: BooksBookIdRouteWithChildren,
+  BooksNewRoute: BooksNewRoute,
   BooksIndexRoute: BooksIndexRoute,
 }
 
@@ -265,7 +297,9 @@ export interface FileRoutesByFullPath {
   '/books': typeof BooksRouteWithChildren
   '/synopses': typeof SynopsesRouteWithChildren
   '/authors/$authorId': typeof AuthorsAuthorIdRoute
+  '/authors/new': typeof AuthorsNewRoute
   '/books/$bookId': typeof BooksBookIdRouteWithChildren
+  '/books/new': typeof BooksNewRoute
   '/synopses/$synopsisId': typeof SynopsesSynopsisIdRoute
   '/authors/': typeof AuthorsIndexRoute
   '/books/': typeof BooksIndexRoute
@@ -278,7 +312,9 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/authors/$authorId': typeof AuthorsAuthorIdRoute
+  '/authors/new': typeof AuthorsNewRoute
   '/books/$bookId': typeof BooksBookIdRouteWithChildren
+  '/books/new': typeof BooksNewRoute
   '/synopses/$synopsisId': typeof SynopsesSynopsisIdRoute
   '/authors': typeof AuthorsIndexRoute
   '/books': typeof BooksIndexRoute
@@ -295,7 +331,9 @@ export interface FileRoutesById {
   '/books': typeof BooksRouteWithChildren
   '/synopses': typeof SynopsesRouteWithChildren
   '/authors/$authorId': typeof AuthorsAuthorIdRoute
+  '/authors/new': typeof AuthorsNewRoute
   '/books/$bookId': typeof BooksBookIdRouteWithChildren
+  '/books/new': typeof BooksNewRoute
   '/synopses/$synopsisId': typeof SynopsesSynopsisIdRoute
   '/authors/': typeof AuthorsIndexRoute
   '/books/': typeof BooksIndexRoute
@@ -313,7 +351,9 @@ export interface FileRouteTypes {
     | '/books'
     | '/synopses'
     | '/authors/$authorId'
+    | '/authors/new'
     | '/books/$bookId'
+    | '/books/new'
     | '/synopses/$synopsisId'
     | '/authors/'
     | '/books/'
@@ -325,7 +365,9 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/authors/$authorId'
+    | '/authors/new'
     | '/books/$bookId'
+    | '/books/new'
     | '/synopses/$synopsisId'
     | '/authors'
     | '/books'
@@ -340,7 +382,9 @@ export interface FileRouteTypes {
     | '/books'
     | '/synopses'
     | '/authors/$authorId'
+    | '/authors/new'
     | '/books/$bookId'
+    | '/books/new'
     | '/synopses/$synopsisId'
     | '/authors/'
     | '/books/'
@@ -393,6 +437,7 @@ export const routeTree = rootRoute
       "filePath": "authors.tsx",
       "children": [
         "/authors/$authorId",
+        "/authors/new",
         "/authors/"
       ]
     },
@@ -400,6 +445,7 @@ export const routeTree = rootRoute
       "filePath": "books.tsx",
       "children": [
         "/books/$bookId",
+        "/books/new",
         "/books/"
       ]
     },
@@ -414,6 +460,10 @@ export const routeTree = rootRoute
       "filePath": "authors/$authorId.tsx",
       "parent": "/authors"
     },
+    "/authors/new": {
+      "filePath": "authors/new.tsx",
+      "parent": "/authors"
+    },
     "/books/$bookId": {
       "filePath": "books/$bookId.tsx",
       "parent": "/books",
@@ -421,6 +471,10 @@ export const routeTree = rootRoute
         "/books/$bookId/synopses",
         "/books/$bookId/synopses_/create"
       ]
+    },
+    "/books/new": {
+      "filePath": "books/new.tsx",
+      "parent": "/books"
     },
     "/synopses/$synopsisId": {
       "filePath": "synopses/$synopsisId.tsx",

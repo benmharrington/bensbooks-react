@@ -15,16 +15,22 @@ function AuthorPage() {
       <div className="p-2">Hello from AuthorPage!</div>
       <p>The author&apos;s name is {author.name}</p>
       <p>Bio: {author.bio}</p>
-      <p>Here are the books they&apos;ve written:</p>
-      <ul>
-        {author.books.map((book: Book) => (
-          <li key={book.id}>
-            <Link to='/books/$bookId' params={{ bookId: book.id }}>
-              {book.title}
-            </Link>
-          </li>
-        ))}
-      </ul>
+      {author.books.length > 0 ?
+        <>
+          <p>Here are the books they&apos;ve written:</p>
+          <ul>
+            {author.books.map((book: Book) => (
+              <li key={book.id}>
+                <Link to='/books/$bookId' params={{ bookId: book.id }}>
+                  {book.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </>
+        :
+        <p>We don&apos;t have any books on file for this author.</p>
+      }
     </>
   )
 }

@@ -6,8 +6,6 @@ import { MantineProvider } from '@mantine/core';
 
 // TODO: add a new book
 // TODO: delete an existing book
-// TODO: add a new author
-// TODO: see all books by author
 // TODO: add error handling from api calls
 // TODO: add logins/auth
 // TODO: edit a synopsis of an existing book - same author or admins only
@@ -23,6 +21,8 @@ import { MantineProvider } from '@mantine/core';
 // TODO: handle multiple/different versions/publications of specific books - e.g. different editions (maybe w/ books api?)
 // TODO: google books api?
 // TODO: voting/rating of synopses
+// TODO: search by authors/prevent duplicates
+// TODO: search by books/prevent duplicates
 
 
 

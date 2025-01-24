@@ -19,13 +19,13 @@ function CreateSynopsis() {
       setError('Synopsis must be at least 10 characters long');
       return;
     }
-    console.log(synopsis);
+
     try {
       const response = await createSynopsis(bookId, synopsis);
       // TODO: add success feedback for user
       navigate({ to: '/books/$bookId', params: { bookId } });
 
-      console.log(response);
+      return response;
     } catch(e) {
       // TODO: real error feedback for user
       console.error('Failed to create synopsis');
