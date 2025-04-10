@@ -11,8 +11,7 @@ export async function fetchSynopses(): Promise<string> {
 export async function fetchSynopsis(synopsisId: string): Promise<string> {
   const res = await fetch(`${import.meta.env.VITE_API_URL}/synopses/${synopsisId}`);
 
-  if (!res.ok) throw new Error(`Failed to fetch synopsis ${synopsisId}, in fetchBook`);
-  return await res.json();
+  if (!res.ok) throw new Error(`Failed to fetch synopsis ${synopsisId}, in fetchSynopsis`);
 }
 
 // POST synopses
