@@ -18,7 +18,10 @@ export default function Header() {
       </Link>{' '}
       <Link to='/synopses'>
         All Synopses
-      </Link>
+      </Link>{' '}
+      <Link to='/login'>
+        Login
+      </Link>{' '}
     </div>
   )
 }

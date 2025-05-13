@@ -32,7 +32,7 @@ function BookPage() {
         The author of the book is <Link to='/authors/$authorId' params={{ authorId: book.author.id }}>{book.author.name}</Link>
       </p>
       <p>{book.current_synopsis?.content ?? 'Sorry, no synopses for this book found.'}</p>
-      {book.current_synopsis?.user ? <p>{parseDateFull(book.current_synopsis.created_at)} by {book.current_synopsis?.user?.name ?? 'an anonymous account'}.</p> : null}
+      {book.current_synopsis?.user ? <p>{parseDateFull(book.current_synopsis.created_at)} by {book.current_synopsis?.user?.first_name ?? 'an anonymous account'}.</p> : null}
       {/* TODO: implement user pages */}
       {/* <Link to='/authors/$authorId' params={{ authorId: book.current_synopsis.user.id }}>Go to user</Link> */}
       <br />

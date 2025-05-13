@@ -12,6 +12,9 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as SynopsesImport } from './routes/synopses'
+import { Route as SignUpImport } from './routes/sign-up'
+import { Route as LoginImport } from './routes/login'
+import { Route as ForgotPasswordImport } from './routes/forgot-password'
 import { Route as BooksImport } from './routes/books'
 import { Route as AuthorsImport } from './routes/authors'
 import { Route as AboutImport } from './routes/about'
@@ -32,6 +35,24 @@ import { Route as BooksBookIdSynopsesCreateImport } from './routes/books/$bookId
 const SynopsesRoute = SynopsesImport.update({
   id: '/synopses',
   path: '/synopses',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const SignUpRoute = SignUpImport.update({
+  id: '/sign-up',
+  path: '/sign-up',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const LoginRoute = LoginImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ForgotPasswordRoute = ForgotPasswordImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -149,6 +170,27 @@ declare module '@tanstack/react-router' {
       path: '/books'
       fullPath: '/books'
       preLoaderRoute: typeof BooksImport
+      parentRoute: typeof rootRoute
+    }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordImport
+      parentRoute: typeof rootRoute
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginImport
+      parentRoute: typeof rootRoute
+    }
+    '/sign-up': {
+      id: '/sign-up'
+      path: '/sign-up'
+      fullPath: '/sign-up'
+      preLoaderRoute: typeof SignUpImport
       parentRoute: typeof rootRoute
     }
     '/synopses': {
@@ -295,6 +337,9 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/authors': typeof AuthorsRouteWithChildren
   '/books': typeof BooksRouteWithChildren
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
+  '/sign-up': typeof SignUpRoute
   '/synopses': typeof SynopsesRouteWithChildren
   '/authors/$authorId': typeof AuthorsAuthorIdRoute
   '/authors/new': typeof AuthorsNewRoute
@@ -311,6 +356,9 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
+  '/sign-up': typeof SignUpRoute
   '/authors/$authorId': typeof AuthorsAuthorIdRoute
   '/authors/new': typeof AuthorsNewRoute
   '/books/$bookId': typeof BooksBookIdRouteWithChildren
@@ -329,6 +377,9 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/authors': typeof AuthorsRouteWithChildren
   '/books': typeof BooksRouteWithChildren
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
+  '/sign-up': typeof SignUpRoute
   '/synopses': typeof SynopsesRouteWithChildren
   '/authors/$authorId': typeof AuthorsAuthorIdRoute
   '/authors/new': typeof AuthorsNewRoute
@@ -349,6 +400,9 @@ export interface FileRouteTypes {
     | '/about'
     | '/authors'
     | '/books'
+    | '/forgot-password'
+    | '/login'
+    | '/sign-up'
     | '/synopses'
     | '/authors/$authorId'
     | '/authors/new'
@@ -364,6 +418,9 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/forgot-password'
+    | '/login'
+    | '/sign-up'
     | '/authors/$authorId'
     | '/authors/new'
     | '/books/$bookId'
@@ -380,6 +437,9 @@ export interface FileRouteTypes {
     | '/about'
     | '/authors'
     | '/books'
+    | '/forgot-password'
+    | '/login'
+    | '/sign-up'
     | '/synopses'
     | '/authors/$authorId'
     | '/authors/new'
@@ -399,6 +459,9 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AuthorsRoute: typeof AuthorsRouteWithChildren
   BooksRoute: typeof BooksRouteWithChildren
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
+  LoginRoute: typeof LoginRoute
+  SignUpRoute: typeof SignUpRoute
   SynopsesRoute: typeof SynopsesRouteWithChildren
 }
 
@@ -407,6 +470,9 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AuthorsRoute: AuthorsRouteWithChildren,
   BooksRoute: BooksRouteWithChildren,
+  ForgotPasswordRoute: ForgotPasswordRoute,
+  LoginRoute: LoginRoute,
+  SignUpRoute: SignUpRoute,
   SynopsesRoute: SynopsesRouteWithChildren,
 }
 
@@ -424,6 +490,9 @@ export const routeTree = rootRoute
         "/about",
         "/authors",
         "/books",
+        "/forgot-password",
+        "/login",
+        "/sign-up",
         "/synopses"
       ]
     },
@@ -448,6 +517,15 @@ export const routeTree = rootRoute
         "/books/new",
         "/books/"
       ]
+    },
+    "/forgot-password": {
+      "filePath": "forgot-password.tsx"
+    },
+    "/login": {
+      "filePath": "login.tsx"
+    },
+    "/sign-up": {
+      "filePath": "sign-up.tsx"
     },
     "/synopses": {
       "filePath": "synopses.tsx",

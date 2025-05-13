@@ -1,6 +1,5 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { RouterProvider, createRouter } from '@tanstack/react-router';
 import '@mantine/core/styles.css';
 import { MantineProvider } from '@mantine/core';
 
@@ -23,27 +22,20 @@ import { MantineProvider } from '@mantine/core';
 // TODO: voting/rating of synopses
 // TODO: search by authors/prevent duplicates
 // TODO: search by books/prevent duplicates
+// TODO: ability to edit current synopses of a book - approval by admin users only??
 
 
 
 // Import the generated route tree
-import { routeTree } from './routeTree.gen.ts';
-import NotFound from './components/404NotFound.tsx';
-
-// Create a new router instance
-const router = createRouter({ routeTree, defaultNotFoundComponent: NotFound });
-
-// Register the router instance for type safety
-declare module '@tanstack/react-router' {
-  interface Register {
-    router: typeof router
-  }
-}
+import { AuthProvider } from './pages/AuthProvider.tsx';
+import { InnerApp } from './InnerApp.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <MantineProvider>
-      <RouterProvider router={router} />
+      <AuthProvider>
+        <InnerApp />
+      </AuthProvider>
     </MantineProvider>
   </StrictMode>,
 )

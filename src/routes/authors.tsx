@@ -1,6 +1,20 @@
-import { createFileRoute, Link, Outlet } from '@tanstack/react-router'
+import { createFileRoute, Link, Outlet, redirect } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/authors')({
+  beforeLoad: ({ context, location }) => {
+    console.log('before load /authors')
+    console.log('context', context)
+    // TODO: error - race condition with auth provider
+    if(!context.auth.isAuthenticated) {
+      console.log('not authenticated')
+      throw redirect({
+        to: '/login',
+        search: {
+          redirect: location.href,
+        }
+      })
+    }
+  },
   component: Authors,
 })
 
