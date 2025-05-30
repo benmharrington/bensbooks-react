@@ -5,8 +5,6 @@ export async function fetchProtectedData(route: string): Promise<string> {
     credentials: 'include',
   });
 
-  console.log('fetchProtectedData response:', response);
-
   if (response.status === 401) {
     // Token expired, try refreshing it
     try {
@@ -27,8 +25,6 @@ export async function fetchProtectedData(route: string): Promise<string> {
     }
   }
 
-  console.log("Response status - protected data:", response.status);
-
   if (!response.ok) {
     // TODO: Handle errors properly
     throw new Error('Failed to fetch protected data');
@@ -46,7 +42,7 @@ export async function postProtectedData(route: string, data: NewAuthor): Promise
     },
     body: JSON.stringify(data),
   });
-  console.log('postProtectedData response:', response);
+
   if (response.status === 401) {
     // Token expired, try refreshing it
     try {
@@ -71,7 +67,7 @@ export async function postProtectedData(route: string, data: NewAuthor): Promise
       throw error;
     }
   }
-  console.log("Response status - postProtectedData:", response.status);
+
   if (!response.ok) {
     // TODO: Handle errors properly
     throw new Error('Failed to fetch protected data');
@@ -94,31 +90,22 @@ export async function loginUser(data: { email_address: string; password: string;
 
   if (response.ok) {
     const sessionData = await response.json();
-    console.log('loginUser response:', sessionData);
     return sessionData;
   } else {
     const errorData = await response.json();
-    console.log('loginUser error:', errorData);
     throw new Error(errorData?.error || 'Failed to log in');
   }
 }
 
 export async function refreshAccessToken() {
-  console.log('Refreshing access token...');
   const response = await fetch(`${import.meta.env.VITE_API_URL}/tokens/refresh`, {
     method: 'POST',
     credentials: 'include',
   });
 
-  console.log('Response status - refreshAccessToken:', response.status);
-  console.log(response);
-
   if (!response.ok) {
     throw new Error('Failed to refresh access token');
   }
-
-  // TODO: remove
-  console.log('Access token refreshed successfully');
 }
 
 export async function logoutUser(): Promise<void> {
@@ -132,6 +119,5 @@ export async function logoutUser(): Promise<void> {
     throw new Error(errorData?.error || 'Failed to log out');
   }
 
-  console.log('Logout successful');
   return response.json();
 }

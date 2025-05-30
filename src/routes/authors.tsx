@@ -2,11 +2,16 @@ import { createFileRoute, Link, Outlet, redirect } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/authors')({
   beforeLoad: ({ context, location }) => {
-    console.log('before load /authors')
-    console.log('context', context)
-    // TODO: error - race condition with auth provider
+
+    // // TODO: error - race condition with auth provider
+    // while (context.auth.checking) {
+    //   new Promise(resolve => setTimeout(resolve, 100));
+    // }
+
+
+    // TODO: fix bug where this is triggering before auth is updated after login.
+
     if(!context.auth.isAuthenticated) {
-      console.log('not authenticated')
       throw redirect({
         to: '/login',
         search: {

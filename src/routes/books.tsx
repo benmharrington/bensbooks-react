@@ -1,7 +1,16 @@
-import { createFileRoute, Link, Outlet } from '@tanstack/react-router'
+import { createFileRoute, Link, Outlet, redirect } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/books')({
-  // loader: ({ params }) => fetchBooks(params.bookId),
+  beforeLoad: ({ context, location }) => {
+    if(!context.auth.isAuthenticated) {
+      throw redirect({
+        to: '/login',
+        search: {
+          redirect: location.href,
+        }
+      })
+    }
+  },
   component: Books,
 })
 

@@ -1,15 +1,19 @@
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react';
-import { loginUser } from '../api/auth';
+import { AuthContextType } from '../types/frontend';
+import { useAuth } from '../hooks/useAuth';
 
 export const Route = createFileRoute('/login')({
   component: Login,
+  validateSearch: (searchParams: { redirect?: string }) => searchParams,
 })
 
 function Login() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const auth: AuthContextType | undefined = useAuth();
+  const { redirect } = Route.useSearch();
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -23,20 +27,21 @@ function Login() {
     }
 
     try {
-      const response = await loginUser(data);
-      console.log('Login response:', response);
-      if (response) {
-        navigate({ to: '/' });
-      } else {
-        setError('Login failed');
-        console.error('Login failed');
-      }
-    } catch (error: string | unknown) {
+      await auth?.login(data);
+    } catch(error: string | unknown) {
       console.error('Login error:', error);
-      setError(typeof error === 'string' ? error : 'Failed to login');
-    } finally {
+      setError('Login failed. Please check your credentials and try again.');
       setLoading(false);
+      return;
     }
+
+    setTimeout(() => {
+      if (redirect) {
+        navigate({ to: redirect });
+      } else {
+        navigate({ to: '/' });
+      }
+    }, 100);
   }
 
   // TODO: convert to mantine

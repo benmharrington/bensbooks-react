@@ -8,4 +8,8 @@ export type NewUser = Omit<User, 'id' | 'synopses'> & {
 
 export interface AuthContextType {
   isAuthenticated: boolean;
+  checkAuth: () => Promise<void>;
+  checking: boolean;
+  login: (data: { email_address: string; password: string }) => Promise<void>;
+  logout: () => Promise<void>;
 }
