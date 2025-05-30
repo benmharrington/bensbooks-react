@@ -6,12 +6,13 @@ import { MantineProvider } from '@mantine/core';
 // TODO: add a new book
 // TODO: delete an existing book
 // TODO: add error handling from api calls
-// TODO: add logins/auth
+// TODO: sign up page
 // TODO: edit a synopsis of an existing book - same author or admins only
 // TODO: delete a synopsis of an existing book - same author or admins only
 // TODO: edit an existing book (description, author, etc) - admins only
 // TODO: add restrictions for updating/deleting synopses/books/authors if not logged in etc.
 // TODO: make it look nice - mobile
+// TODO: refresh tokens - handle expired tokens (currently broken)
 // TODO: make it look nice - desktop
 // TODO: approval of synopses by admin users
 // TODO: approval of deletions, editing books etc by admin users
