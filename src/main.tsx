@@ -16,6 +16,7 @@ import { MantineProvider } from '@mantine/core';
 // TODO: make it look nice - desktop
 // TODO: approval of synopses by admin users
 // TODO: approval of deletions, editing books etc by admin users
+// TODO: update sessions, session info, etc. currently not useful/implemented properly
 // TODO: search/pagination of books
 // TODO: search/pagination of authors
 // TODO: handle multiple/different versions/publications of specific books - e.g. different editions (maybe w/ books api?)
