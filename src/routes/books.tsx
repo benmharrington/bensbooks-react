@@ -1,20 +1,15 @@
-import { createFileRoute, Link, Outlet, redirect } from '@tanstack/react-router'
+import { createFileRoute, Link, Outlet } from '@tanstack/react-router'
+import { useContext } from 'react'
+import { AuthContext } from '../context/AuthContext';
 
 export const Route = createFileRoute('/books')({
-  beforeLoad: ({ context, location }) => {
-    if(!context.auth.isAuthenticated) {
-      throw redirect({
-        to: '/login',
-        search: {
-          redirect: location.href,
-        }
-      })
-    }
-  },
+
   component: Books,
 })
 
 function Books() {
+  const auth = useContext(AuthContext);
+  console.log('Books component, auth:', auth);
   return (
     <>
       <div>Hello "/books"!</div>

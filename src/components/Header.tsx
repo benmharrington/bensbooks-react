@@ -5,6 +5,7 @@ import { Button } from '@mantine/core';
 
 export default function Header() {
   const auth: AuthContextType | undefined = useAuth();
+  console.log('Header component, auth:', auth);
   const navigate = useNavigate();
 
   async function handleLogout() {
@@ -19,8 +20,7 @@ export default function Header() {
 
   return (
     <div className='p-2 flex gap-2'>
-      <span className='text-2xl font-bold'>Bookstore </span>
-      <span className='text-lg font-bold'>{auth?.isAuthenticated ? 'Authenticated' : 'Not Authenticated'} </span>
+      <span className='text-lg font-bold'>{auth?.checking ? '' : auth?.authenticatedUser ? `Hello, ${auth?.authenticatedUser?.first_name}` : 'Not Authenticated'} </span>
       <Link to='/'>
         Home
       </Link>{' '}
@@ -36,9 +36,39 @@ export default function Header() {
       <Link to='/synopses'>
         All Synopses
       </Link>{' '}
-      <Link to='/login'>
+      <Button
+        onClick={async () => {
+          try {
+            await auth?.checkAuth();
+          } catch (error) {
+            console.error('Error checking auth status:', error);
+          }
+        }}
+      >
+        Status
+      </Button>
+      {/* <Link to='/login'>
         Login
-      </Link>{' '}
+      </Link>{' '} */}
+      <Button
+        onClick={async () => {
+
+            const data = {
+              email_address: 'benmharrington@gmail.com',
+              password: 'Abcd123',
+            }
+
+            try {
+              await auth?.login(data);
+            } catch(error: string | unknown) {
+              console.error('Login error:', error);
+              return;
+            }
+          }
+        }
+      >
+        Login
+      </Button>
       <Button
         onClick={handleLogout}
       >

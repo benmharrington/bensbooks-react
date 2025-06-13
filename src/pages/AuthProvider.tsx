@@ -1,17 +1,19 @@
 import { useEffect, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { loginUser } from '../api/auth';
+import { AuthUser } from '../types/frontend';
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [authenticatedUser, setAuthenticatedUser] = useState<null | AuthUser>(null);
   const [checking, setChecking] = useState(true);
 
   async function login(data: { email_address: string; password: string }) {
     setChecking(true);
     try {
       const response = await loginUser(data);
+      console.log('Login response:', response);
       if (response) {
-        setIsAuthenticated(true);
+        setAuthenticatedUser(response?.user);
       } else {
         console.error('Login failed');
       }
@@ -30,7 +32,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       });
 
       if(response.ok) {
-        setIsAuthenticated(false);
+        setAuthenticatedUser(null);
       } else {
         console.error('Failed to logout:', response.status);
       }
@@ -49,14 +51,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       });
 
       if(response.ok) {
-        setIsAuthenticated(true);
+        // TODO: handle frontend & change login button stuff
+        // TODO: rails tests
+        // TODO: update mantine?
+        const data = await response.json();
+        setAuthenticatedUser(data?.user);
       } else {
         console.error('Authentication failed.', response.status);
-        setIsAuthenticated(false);
+        setAuthenticatedUser(null);
       }
     } catch(error) {
       console.error('Error checking authentication status:', error);
-      setIsAuthenticated(false);
+      setAuthenticatedUser(null);
     } finally {
       setChecking(false);
     }
@@ -66,5 +72,5 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     checkAuth();
   }, []);
 
-  return <AuthContext.Provider value={{ isAuthenticated, checkAuth, checking, login, logout }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ authenticatedUser, checkAuth, checking, login, logout }}>{children}</AuthContext.Provider>;
 }

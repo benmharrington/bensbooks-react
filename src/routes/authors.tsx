@@ -3,7 +3,8 @@ import { createFileRoute, Link, Outlet, redirect } from '@tanstack/react-router'
 export const Route = createFileRoute('/authors')({
   beforeLoad: ({ context, location }) => {
 
-    // // TODO: error - race condition with auth provider
+    console.log('Authors route beforeLoad, context:', context);
+    // TODO: error - race condition with auth provider
     // while (context.auth.checking) {
     //   new Promise(resolve => setTimeout(resolve, 100));
     // }
@@ -11,7 +12,7 @@ export const Route = createFileRoute('/authors')({
 
     // TODO: fix bug where this is triggering before auth is updated after login.
 
-    if(!context.auth.isAuthenticated) {
+    if(!context.auth.authenticatedUser) {
       throw redirect({
         to: '/login',
         search: {
