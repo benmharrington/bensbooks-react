@@ -1,6 +1,7 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { createUser } from '../api/users'
-import { useState } from 'react'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { useContext, useState } from 'react'
+import { AuthContext } from '../context/AuthContext'
+import { AuthContextType } from '../types/frontend'
 
 export const Route = createFileRoute('/sign-up')({
   component: SignUp,
@@ -9,6 +10,8 @@ export const Route = createFileRoute('/sign-up')({
 function SignUp() {
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+  const navigate = useNavigate();
+  const auth: AuthContextType | undefined = useContext(AuthContext);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -24,12 +27,12 @@ function SignUp() {
       password_confirmation: formData.get('password_confirmation') as string,
     }
 
-    // TODO: handle errors
+    // TODO: handle errors for frontend
     // TODO: redirect to the prev page? or home probably + some kind of feedback for user
     try {
-      await createUser(data);
-    } catch (error) {
-      console.error(error)
+      await auth?.signUp(data);
+      navigate({ to: '/' });
+    } catch {
       setError('Failed to create user')
     } finally {
       setLoading(false);
@@ -37,24 +40,26 @@ function SignUp() {
   }
 
   // TODO: convert to mantine
+  // TODO: add back required to all inputs
+  // TODO: add back email input to type email
   return (
     <>
       <h3>Sign Up</h3>
       <form onSubmit={handleSubmit}>
         <label>Email:
-        <input type="email" name="email" required />
+        <input type="text" name="email" />
       </label>
         <label>First Name:
-        <input type="text" name="first_name" required />
+        <input type="text" name="first_name" />
       </label>
         <label>Last Name:
-        <input type="text" name="last_name" required />
+        <input type="text" name="last_name" />
       </label>
         <label>Password:
-        <input type="password" name="password" required />
+        <input type="password" name="password" />
       </label>
         <label>Confirm Password:
-        <input type="password" name="password_confirmation" required />
+        <input type="password" name="password_confirmation" />
       </label>
         <button type="submit" disabled={loading}>
           {loading ? 'Loading...' : 'Sign Up'}

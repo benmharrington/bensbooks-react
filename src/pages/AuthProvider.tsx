@@ -1,17 +1,33 @@
 import { useEffect, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { loginUser } from '../api/auth';
-import { AuthUser } from '../types/frontend';
+import { AuthUser, NewUser } from '../types/frontend';
+import { createUser } from '../api/users';
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [authenticatedUser, setAuthenticatedUser] = useState<null | AuthUser>(null);
   const [checking, setChecking] = useState(true);
 
+  async function signUp(data: NewUser) {
+    setChecking(true);
+    try {
+      const response = await createUser(data);
+      if (response) {
+        setAuthenticatedUser(response?.user);
+      } else {
+        console.error('Sign up failed');
+      }
+    } catch (error: string | unknown) {
+      console.error('Sign up error:', error);
+    } finally {
+      setChecking(false);
+    }
+  }
+
   async function login(data: { email_address: string; password: string }) {
     setChecking(true);
     try {
       const response = await loginUser(data);
-      console.log('Login response:', response);
       if (response) {
         setAuthenticatedUser(response?.user);
       } else {
@@ -72,5 +88,5 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     checkAuth();
   }, []);
 
-  return <AuthContext.Provider value={{ authenticatedUser, checkAuth, checking, login, logout }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ authenticatedUser, checkAuth, checking, login, logout, signUp }}>{children}</AuthContext.Provider>;
 }

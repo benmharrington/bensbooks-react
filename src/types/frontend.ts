@@ -13,4 +13,5 @@ export interface AuthContextType {
   checking: boolean;
   login: (data: { email_address: string; password: string }) => Promise<void>;
   logout: () => Promise<void>;
+  signUp: (data: NewUser) => Promise<void>;
 }
