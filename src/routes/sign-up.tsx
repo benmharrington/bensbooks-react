@@ -41,13 +41,12 @@ function SignUp() {
 
   // TODO: convert to mantine
   // TODO: add back required to all inputs
-  // TODO: add back email input to type email
   return (
     <>
       <h3>Sign Up</h3>
       <form onSubmit={handleSubmit}>
         <label>Email:
-        <input type="text" name="email" />
+        <input type="email" name="email" />
       </label>
         <label>First Name:
         <input type="text" name="first_name" />

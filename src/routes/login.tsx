@@ -28,7 +28,7 @@ function Login() {
 
     try {
       await auth?.login(data);
-    } catch(error: string | unknown) {
+    } catch(error: unknown) {
       console.error('Login error:', error);
       setError('Login failed. Please check your credentials and try again.');
       setLoading(false);

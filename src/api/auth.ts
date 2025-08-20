@@ -33,7 +33,7 @@ export async function fetchProtectedData(route: string): Promise<string> {
   return await response.json();
 }
 
-export async function postProtectedData(route: string, data: NewAuthor): Promise<string> {
+export async function postProtectedData<T>(route: string, data: T): Promise<string> {
   const response = await fetch(route, {
     method: 'POST',
     credentials: 'include',
@@ -70,7 +70,7 @@ export async function postProtectedData(route: string, data: NewAuthor): Promise
 
   if (!response.ok) {
     // TODO: Handle errors properly
-    throw new Error('Failed to fetch protected data');
+    throw new Error('Failed to post protected data');
   }
 
   return await response.json();

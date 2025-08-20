@@ -17,7 +17,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       } else {
         console.error('Sign up failed');
       }
-    } catch (error: string | unknown) {
+    } catch (error: unknown) {
       console.error('Sign up error:', error);
     } finally {
       setChecking(false);
@@ -33,7 +33,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       } else {
         console.error('Login failed');
       }
-    } catch (error: string | unknown) {
+    } catch (error: unknown) {
       console.error('Login error:', error);
     } finally {
       setChecking(false);
@@ -47,7 +47,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         credentials: 'include',
       });
 
-      if(response.ok) {
+      if (response.ok) {
         setAuthenticatedUser(null);
       } else {
         console.error('Failed to logout:', response.status);
@@ -66,7 +66,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         credentials: 'include',
       });
 
-      if(response.ok) {
+      if (response.ok) {
         // TODO: handle frontend & change login button stuff
         // TODO: rails tests
         // TODO: update mantine?

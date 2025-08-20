@@ -5,7 +5,6 @@ import { Button } from '@mantine/core';
 
 export default function Header() {
   const auth: AuthContextType | undefined = useAuth();
-  console.log('Header component, auth:', auth);
   const navigate = useNavigate();
 
   async function handleLogout() {
@@ -47,28 +46,9 @@ export default function Header() {
       >
         Status
       </Button>
-      {/* <Link to='/login'>
+      <Link to='/login'>
         Login
-      </Link>{' '} */}
-      <Button
-        onClick={async () => {
-
-            const data = {
-              email_address: 'benmharrington@gmail.com',
-              password: 'Abcd123',
-            }
-
-            try {
-              await auth?.login(data);
-            } catch(error: string | unknown) {
-              console.error('Login error:', error);
-              return;
-            }
-          }
-        }
-      >
-        Login
-      </Button>
+      </Link>{' '}
       <Button
         onClick={handleLogout}
       >

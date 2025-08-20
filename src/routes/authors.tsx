@@ -12,7 +12,7 @@ export const Route = createFileRoute('/authors')({
 
     // TODO: fix bug where this is triggering before auth is updated after login.
 
-    if(!context.auth.authenticatedUser) {
+    if (!context.auth.authenticatedUser) {
       throw redirect({
         to: '/login',
         search: {
