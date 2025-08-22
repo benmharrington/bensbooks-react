@@ -9,7 +9,6 @@ export const Route = createFileRoute('/books')({
 
 function Books() {
   const auth = useContext(AuthContext);
-  console.log('Books component, auth:', auth);
   return (
     <>
       <div>Hello "/books"!</div>

@@ -9,14 +9,16 @@ interface MyRouterContext {
 }
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
-  component: () => (
-    <>
-      <Header />
-      <hr />
-      <Outlet />
-      <Suspense>
-        <TanStackRouterDevtools/>
-      </Suspense>
-    </>
-  ),
+  component: () => {
+
+    return (
+      <>
+        <Header />
+        <Outlet />
+        <Suspense>
+          <TanStackRouterDevtools/>
+        </Suspense>
+      </>
+    );
+  },
 })

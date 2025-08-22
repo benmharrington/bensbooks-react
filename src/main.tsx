@@ -1,7 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import '@mantine/core/styles.css';
-import { MantineProvider } from '@mantine/core';
+import { createTheme, MantineProvider } from '@mantine/core';
 
 // TODO: add a new book
 // TODO: delete an existing book
@@ -25,6 +25,7 @@ import { MantineProvider } from '@mantine/core';
 // TODO: search by authors/prevent duplicates
 // TODO: search by books/prevent duplicates
 // TODO: ability to edit current synopses of a book - approval by admin users only??
+// TODO: import from goodreads
 
 
 
@@ -32,9 +33,27 @@ import { MantineProvider } from '@mantine/core';
 import { AuthProvider } from './pages/AuthProvider.tsx';
 import { InnerApp } from './InnerApp.tsx';
 
+const theme = createTheme({
+  colors: {
+    // TODO: replace with real custom theme
+    pumpkin: [
+      '#EA7317',
+      '#EA7317',
+      '#EA7317',
+      '#EA7317',
+      '#EA7317',
+      '#EA7317',
+      '#EA7317',
+      '#EA7317',
+      '#EA7317',
+      '#EA7317',
+    ],
+  },
+});
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <MantineProvider>
+    <MantineProvider defaultColorScheme= 'dark' theme={theme}>
       <AuthProvider>
         <InnerApp />
       </AuthProvider>

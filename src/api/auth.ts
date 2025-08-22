@@ -1,5 +1,3 @@
-import { NewAuthor } from '../types/frontend';
-
 export async function fetchProtectedData(route: string): Promise<string> {
   const response = await fetch(route, {
     credentials: 'include',

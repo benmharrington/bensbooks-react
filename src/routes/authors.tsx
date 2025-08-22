@@ -2,8 +2,6 @@ import { createFileRoute, Link, Outlet, redirect } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/authors')({
   beforeLoad: ({ context, location }) => {
-
-    console.log('Authors route beforeLoad, context:', context);
     // TODO: error - race condition with auth provider
     // while (context.auth.checking) {
     //   new Promise(resolve => setTimeout(resolve, 100));
