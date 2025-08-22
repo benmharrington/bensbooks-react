@@ -1,16 +1,23 @@
 // for api calls
 
+import { fetchProtectedData } from './auth';
+
 // GET books
 export async function fetchBooks(): Promise<string> {
-  const res = await fetch(`${import.meta.env.VITE_API_URL}/books`);
-  if (!res.ok) throw new Error('Failed to fetch books');
-  return await res.json();
+  try {
+    return await fetchProtectedData(`${import.meta.env.VITE_API_URL}/books`);
+  } catch (error) {
+    console.error('Error fetching books:', error);
+    throw error;
+  }
 }
 
 // GET books/:bookId
 export async function fetchBook(bookId: string): Promise<string> {
-  const res = await fetch(`${import.meta.env.VITE_API_URL}/books/${bookId}`);
-
-  if (!res.ok) throw new Error(`Failed to fetch book ${bookId}, in fetchBook`);
-  return await res.json();
+  try {
+    return await fetchProtectedData(`${import.meta.env.VITE_API_URL}/books/${bookId}`);
+  } catch (error) {
+    console.error('Error fetching book:', error);
+    throw error;
+  }
 }

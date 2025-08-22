@@ -19,7 +19,7 @@ function Synopses() {
             <p>{synopsis.content}</p>
             <p>
               {synopsis.created_at} by{' '}
-              {synopsis?.user?.name ?? 'an anonymous account'}.
+              {synopsis?.user?.first_name ?? 'an anonymous account'}.
             </p>
           </li>
         ))}
@@ -28,5 +28,5 @@ function Synopses() {
         Create a new one :)
       </Link>
     </div>
-  )
+  );
 }

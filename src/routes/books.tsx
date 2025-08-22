@@ -1,11 +1,15 @@
 import { createFileRoute, Link, Outlet } from '@tanstack/react-router'
+import { useContext } from 'react'
+import { AuthContext } from '../context/AuthContext';
 
 export const Route = createFileRoute('/books')({
-  // loader: ({ params }) => fetchBooks(params.bookId),
+
   component: Books,
 })
 
 function Books() {
+  const auth = useContext(AuthContext);
+  console.log('Books component, auth:', auth);
   return (
     <>
       <div>Hello "/books"!</div>

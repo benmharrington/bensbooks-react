@@ -15,7 +15,7 @@ function CreateSynopsis() {
   // TODO: figure out how children (outlets) of routes can access the parent route's data
 
   async function handleSubmit() {
-    if(synopsis.length < 10) {
+    if (synopsis.length < 10) {
       setError('Synopsis must be at least 10 characters long');
       return;
     }
@@ -47,7 +47,7 @@ function CreateSynopsis() {
         minRows={8}
         value={synopsis}
         onChange={e => {
-          if(error) setError('');
+          if (error) setError('');
           setSynopsis(e.currentTarget.value);
         }}
         error={error}
