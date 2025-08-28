@@ -1,6 +1,4 @@
 import { createFileRoute, Link, Outlet } from '@tanstack/react-router'
-import { useContext } from 'react'
-import { AuthContext } from '../context/AuthContext';
 
 export const Route = createFileRoute('/books')({
 
@@ -8,7 +6,7 @@ export const Route = createFileRoute('/books')({
 })
 
 function Books() {
-  const auth = useContext(AuthContext);
+
   return (
     <>
       <div>Hello "/books"!</div>
