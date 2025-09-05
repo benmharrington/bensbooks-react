@@ -20,7 +20,7 @@ export const Route = createFileRoute('/authors')({
     }
   },
   component: Authors,
-})
+});
 
 function Authors() {
   return (
@@ -39,5 +39,5 @@ function Authors() {
       <Link to='/authors/new'>Create new author</Link>
       <Outlet />
     </>
-  )
+  );
 }

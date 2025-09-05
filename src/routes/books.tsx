@@ -1,12 +1,10 @@
 import { createFileRoute, Link, Outlet } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/books')({
-
   component: Books,
-})
+});
 
 function Books() {
-
   return (
     <>
       <div>Hello "/books"!</div>
@@ -22,5 +20,5 @@ function Books() {
       </Link>
       <Outlet />
     </>
-  )
+  );
 }
