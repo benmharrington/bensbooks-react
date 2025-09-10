@@ -70,7 +70,6 @@ export function AuthenticationForm({ redirect, ...props }: AuthenticationFormPro
 
       <Divider label='Or continue with email' labelPosition='center' my='lg' />
 
-      {/* TODO: add functionallity */}
       <form onSubmit={form.onSubmit(handleSubmit)}>
         <Stack>
           {type === 'register' && (

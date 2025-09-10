@@ -17,6 +17,7 @@ import { Route as LoginImport } from './routes/login'
 import { Route as ForgotPasswordImport } from './routes/forgot-password'
 import { Route as BooksImport } from './routes/books'
 import { Route as AuthorsImport } from './routes/authors'
+import { Route as AddBookImport } from './routes/add-book'
 import { Route as AboutImport } from './routes/about'
 import { Route as IndexImport } from './routes/index'
 import { Route as SynopsesIndexImport } from './routes/synopses/index'
@@ -65,6 +66,12 @@ const BooksRoute = BooksImport.update({
 const AuthorsRoute = AuthorsImport.update({
   id: '/authors',
   path: '/authors',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AddBookRoute = AddBookImport.update({
+  id: '/add-book',
+  path: '/add-book',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -156,6 +163,13 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutImport
+      parentRoute: typeof rootRoute
+    }
+    '/add-book': {
+      id: '/add-book'
+      path: '/add-book'
+      fullPath: '/add-book'
+      preLoaderRoute: typeof AddBookImport
       parentRoute: typeof rootRoute
     }
     '/authors': {
@@ -335,6 +349,7 @@ const SynopsesRouteWithChildren = SynopsesRoute._addFileChildren(
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/add-book': typeof AddBookRoute
   '/authors': typeof AuthorsRouteWithChildren
   '/books': typeof BooksRouteWithChildren
   '/forgot-password': typeof ForgotPasswordRoute
@@ -356,6 +371,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/add-book': typeof AddBookRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/sign-up': typeof SignUpRoute
@@ -375,6 +391,7 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/add-book': typeof AddBookRoute
   '/authors': typeof AuthorsRouteWithChildren
   '/books': typeof BooksRouteWithChildren
   '/forgot-password': typeof ForgotPasswordRoute
@@ -398,6 +415,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/add-book'
     | '/authors'
     | '/books'
     | '/forgot-password'
@@ -418,6 +436,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/add-book'
     | '/forgot-password'
     | '/login'
     | '/sign-up'
@@ -435,6 +454,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/about'
+    | '/add-book'
     | '/authors'
     | '/books'
     | '/forgot-password'
@@ -457,6 +477,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  AddBookRoute: typeof AddBookRoute
   AuthorsRoute: typeof AuthorsRouteWithChildren
   BooksRoute: typeof BooksRouteWithChildren
   ForgotPasswordRoute: typeof ForgotPasswordRoute
@@ -468,6 +489,7 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  AddBookRoute: AddBookRoute,
   AuthorsRoute: AuthorsRouteWithChildren,
   BooksRoute: BooksRouteWithChildren,
   ForgotPasswordRoute: ForgotPasswordRoute,
@@ -488,6 +510,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/about",
+        "/add-book",
         "/authors",
         "/books",
         "/forgot-password",
@@ -501,6 +524,9 @@ export const routeTree = rootRoute
     },
     "/about": {
       "filePath": "about.tsx"
+    },
+    "/add-book": {
+      "filePath": "add-book.tsx"
     },
     "/authors": {
       "filePath": "authors.tsx",
