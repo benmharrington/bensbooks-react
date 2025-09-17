@@ -15,3 +15,22 @@ export interface AuthContextType {
   logout: () => Promise<void>;
   signUp: (data: NewUser) => Promise<void>;
 };
+
+export interface GoogleBook {
+  id: string;
+  volumeInfo: {
+    title: string;
+    authors?: string[];
+    categories?: string[];
+    description?: string;
+    imageLinks?: {
+      smallThumbnail?: string;
+      thumbnail?: string;
+    };
+    infoLink?: string;
+    pageCount?: number;
+    previewLink?: string;
+    publishedDate?: string;
+    publisher?: string;
+  };
+}

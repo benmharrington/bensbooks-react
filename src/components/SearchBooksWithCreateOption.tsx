@@ -10,7 +10,6 @@ export function SearchBooksWithCreateOption({ books }: { books: Book[] }) {
     onDropdownClose: () => combobox.resetSelectedOption(),
   });
 
-  // const [data, setData] = useState(books);
   const [value, setValue] = useState<string | null>(null);
   const [search, setSearch] = useState<string>('');
   const [newBook, setNewBook] = useState<string | null>(null);
