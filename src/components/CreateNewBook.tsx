@@ -1,9 +1,9 @@
 import { Box, Button, Divider, MultiSelect, NumberInput, Stack, Text, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { GoogleBooksSearch } from './GoogleBooksSearch';
+import { GoogleBook } from '../types/frontend';
 
 export default function CreateNewBook({ initialName }: { initialName: string | null }) {
-
   async function handleSubmit(formData: {
     title: string;
     author: string;
@@ -31,7 +31,19 @@ export default function CreateNewBook({ initialName }: { initialName: string | n
       genres: [],
     },
   });
-  // TODO: link to a google book -
+
+  // when selected book changes, I want to update all the blank values in the form to matching values from the selected book object, if possible
+
+  function handleSelectedBookChange(book: GoogleBook | null) {
+    if(book) {
+      form.setValues({
+        title: book.volumeInfo?.title,
+        author: book.volumeInfo?.authors?.[0] || '',
+        googleBookId: book.id,
+      });
+    }
+  }
+
   return (
     <Box>
       {/* Create a mantine form here with values for title, author, year first published, series (if any), cover?, google book id, genres */}
@@ -41,7 +53,9 @@ export default function CreateNewBook({ initialName }: { initialName: string | n
 
       <Box>
         <Text pb={4}>Search Google Books to autopopulate and find google id</Text>
-        <GoogleBooksSearch />
+        <GoogleBooksSearch
+          selectBook={(book: GoogleBook | null) => handleSelectedBookChange(book)}
+        />
       </Box>
 
       <Divider my='lg' />
@@ -49,6 +63,7 @@ export default function CreateNewBook({ initialName }: { initialName: string | n
       <form onSubmit={form.onSubmit(handleSubmit)}>
         <Stack>
           <TextInput label='Title' {...form.getInputProps('title')} />
+
           {/* TODO: find author */}
           <TextInput label='Author' {...form.getInputProps('author')} />
           {/* TODO: proper year input */}

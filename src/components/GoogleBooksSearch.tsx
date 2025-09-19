@@ -28,7 +28,7 @@ function GoogleBookOption({ book }: { book: GoogleBook }) {
   );
 }
 
-export function GoogleBooksSearch() {
+export function GoogleBooksSearch( { selectBook }: { selectBook: (book: GoogleBook | null) => void } ) {
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption(),
   });
@@ -39,7 +39,6 @@ export function GoogleBooksSearch() {
   const [query, setQuery] = useState('');
   const [debouncedQuery] = useDebouncedValue(query, 300);
   const [results, setResults] = useState<GoogleBook[]>([]);
-  const [selectedBook, setSelectedBook] = useState<GoogleBook | null>(null);
   const [empty, setEmpty] = useState(false);
   const abortController = useRef<AbortController | null>(null);
 
@@ -82,7 +81,7 @@ export function GoogleBooksSearch() {
     <Combobox
       onOptionSubmit={bookId => {
         const book = results.find(b => b.id === bookId);
-        setSelectedBook(book ?? null);
+        selectBook(book ?? null);
         if(book?.volumeInfo?.title !== debouncedQuery) {
           setQuery(book?.volumeInfo?.title ?? '');
         }
@@ -98,7 +97,7 @@ export function GoogleBooksSearch() {
           value={query}
           onChange={e => {
             setQuery(e.currentTarget.value);
-            setSelectedBook(null);
+            selectBook(null);
             combobox.resetSelectedOption();
             combobox.openDropdown();
           }}
