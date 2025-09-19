@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from 'react';
 import { GoogleBook } from '../types/frontend';
 
 async function searchBooks(searchQuery: string, signal: AbortSignal) {
-  console.log('SEARCHING...', import.meta.env.VITE_GOOGLE_BOOKS_API_KEY);
   const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(searchQuery)}&key=${import.meta.env.VITE_GOOGLE_BOOKS_API_KEY}`, { signal });
 
   if(!response.ok) {
@@ -62,7 +61,7 @@ export function GoogleBooksSearch() {
         setEmpty(!data.items || data.items.length === 0);
       } catch(e) {
         if (e instanceof Error && e.name === 'AbortError') {
-          console.log('Request was aborted');
+          console.error('Request was aborted');
         } else {
           console.error('Error fetching book options:', e);
         }
@@ -79,17 +78,14 @@ export function GoogleBooksSearch() {
     <GoogleBookOption key={book.id} book={book} />
   ));
 
-  console.log('query', query);
-  console.log('debounced query', debouncedQuery);
-  console.log('results', results);
-  console.log('selectedBook', selectedBook);
-
   return (
     <Combobox
       onOptionSubmit={bookId => {
         const book = results.find(b => b.id === bookId);
         setSelectedBook(book ?? null);
-        setQuery(book?.volumeInfo?.title ?? '');
+        if(book?.volumeInfo?.title !== debouncedQuery) {
+          setQuery(book?.volumeInfo?.title ?? '');
+        }
         combobox.closeDropdown();
       }}
       withinPortal={false}
@@ -105,15 +101,13 @@ export function GoogleBooksSearch() {
             setSelectedBook(null);
             combobox.resetSelectedOption();
             combobox.openDropdown();
-            console.log('onChange', e.currentTarget.value);
           }}
           onBlur={() => combobox.closeDropdown()}
           onFocus={() => combobox.openDropdown()}
           rightSection={loading && <Loader size={18} />}
         />
       </Combobox.Target>
-
-      <Combobox.Dropdown hidden={!options.length}>
+      <Combobox.Dropdown hidden={!results.length}>
         <Combobox.Options>
           {options}
           {empty && <Combobox.Empty>No results found</Combobox.Empty>}
