@@ -1,13 +1,37 @@
-import { Box, Button, Divider, MultiSelect, NumberInput, Stack, Text, TextInput } from '@mantine/core';
+import { Box, Button, Divider, MultiSelect, Stack, Text, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { GoogleBooksSearch } from './GoogleBooksSearch';
 import { GoogleBook } from '../types/frontend';
+import { YearPickerInput } from '@mantine/dates';
+import { AuthorSearch } from './AuthorSearch';
+import { useEffect, useState } from 'react';
+import { Author } from '../types/database';
+import { fetchAuthors } from '../api/authors';
+
+const GENRES = ['Fiction', 'Non-Fiction', 'Science Fiction', 'Fantasy', 'Mystery'];
 
 export default function CreateNewBook({ initialName }: { initialName: string | null }) {
+  // on component mount, fetch authors from database using fetchAuthors()
+  const [authors, setAuthors] = useState<Author[]>([]);
+
+  async function getAuthors(): Promise<void> {
+    try {
+      const data = await fetchAuthors();
+      console.log(data);
+      setAuthors(data);
+    } catch (error) {
+      console.error('Error fetching authors:', error);
+    }
+  }
+
+  useEffect(() => {
+    getAuthors();
+  }, []);
+
   async function handleSubmit(formData: {
     title: string;
     author: string;
-    year: number | null;
+    year: string;
     series: string;
     googleBookId: string;
     genres: string[];
@@ -25,21 +49,22 @@ export default function CreateNewBook({ initialName }: { initialName: string | n
     initialValues: {
       title: initialName || '',
       author: '',
-      year: null,
+      year: '',
       series: '',
       googleBookId: '',
-      genres: [],
+      genres: [] as string[],
     },
   });
 
-  // when selected book changes, I want to update all the blank values in the form to matching values from the selected book object, if possible
-
   function handleSelectedBookChange(book: GoogleBook | null) {
+    console.log(book);
     if(book) {
       form.setValues({
         title: book.volumeInfo?.title,
         author: book.volumeInfo?.authors?.[0] || '',
         googleBookId: book.id,
+        year: book?.volumeInfo?.publishedDate,
+        genres: (book?.volumeInfo?.categories || []).filter(category => GENRES.includes(category)),
       });
     }
   }
@@ -65,15 +90,20 @@ export default function CreateNewBook({ initialName }: { initialName: string | n
           <TextInput label='Title' {...form.getInputProps('title')} />
 
           {/* TODO: find author */}
-          <TextInput label='Author' {...form.getInputProps('author')} />
+          {/* <TextInput label='Author' {...form.getInputProps('author')} /> */}
+          <AuthorSearch authors={authors || []} />
           {/* TODO: proper year input */}
-          <NumberInput label='Year' {...form.getInputProps('year')} />
+          <YearPickerInput
+            label='Year'
+            {...form.getInputProps('year')}
+          />
           {/* TODO: implement series */}
           <TextInput label='Series' {...form.getInputProps('series')} />
           <TextInput label='Google Book ID' {...form.getInputProps('googleBookId')} />
+          {/* TODO: pull from genres table */}
           <MultiSelect
             label='Genres'
-            data={['Fiction', 'Non-Fiction', 'Science Fiction', 'Fantasy']}
+            data={GENRES}
             {...form.getInputProps('genres')}
           />
         </Stack>

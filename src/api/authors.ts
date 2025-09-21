@@ -1,14 +1,16 @@
+import { Author } from '../types/database';
 import { NewAuthor } from '../types/frontend';
 import { fetchProtectedData, postProtectedData } from './auth';
 // for api calls
 
 // GET authors
-export async function fetchAuthors(): Promise<string> {
+// this returns an array of authors
+export async function fetchAuthors(): Promise<Author[]> {
   return await fetchProtectedData(`${import.meta.env.VITE_API_URL}/authors`);
 }
 
 // GET authors/:authorId
-export async function fetchAuthor(authorId: string): Promise<string> {
+export async function fetchAuthor(authorId: string): Promise<Author> {
   return await fetchProtectedData(`${import.meta.env.VITE_API_URL}/authors/${authorId}`);
 }
 

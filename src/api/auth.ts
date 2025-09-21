@@ -1,4 +1,4 @@
-export async function fetchProtectedData(route: string): Promise<string> {
+export async function fetchProtectedData(route: string): Promise<any> {
   const response = await fetch(route, {
     credentials: 'include',
   });
