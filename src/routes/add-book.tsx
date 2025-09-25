@@ -15,7 +15,7 @@ function AddBook() {
   return (
     <Box>
       <Text>Add a new book - Admins only</Text>
-        <SearchBooksWithCreateOption books={books} />
+      <SearchBooksWithCreateOption books={books} />
     </Box>
   );
 }

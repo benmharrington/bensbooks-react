@@ -1,7 +1,8 @@
-import { Combobox, InputBase, Modal, Text, useCombobox } from '@mantine/core';
+import { Combobox, InputBase, Modal, useCombobox } from '@mantine/core';
 import { Author } from '../types/database';
 import { useState } from 'react';
 import { useDisclosure } from '@mantine/hooks';
+import CreateNewAuthor from './CreateNewAuthor';
 
 export function AuthorSearch({ authors }: { authors: Author[] }) {
   const [opened, { open, close }] = useDisclosure(false);
@@ -31,8 +32,6 @@ export function AuthorSearch({ authors }: { authors: Author[] }) {
         withinPortal={false}
         onOptionSubmit={val => {
           if(val === '$create') {
-            // Handle create new author logic
-            console.log('Create new author:', search);
             setNewAuthor(search);
             open();
           } else {
@@ -70,8 +69,7 @@ export function AuthorSearch({ authors }: { authors: Author[] }) {
         </Combobox.Dropdown>
       </Combobox>
       <Modal opened={opened} onClose={close} title='Add New Author'>
-        <Text>Create a new author here</Text>
-        {/* TODO: Implement author creation component */}
+        <CreateNewAuthor initialName={newAuthor} close={close} />
       </Modal>
     </>
   );

@@ -17,7 +17,6 @@ export default function CreateNewBook({ initialName }: { initialName: string | n
   async function getAuthors(): Promise<void> {
     try {
       const data = await fetchAuthors();
-      console.log(data);
       setAuthors(data);
     } catch (error) {
       console.error('Error fetching authors:', error);
@@ -57,7 +56,6 @@ export default function CreateNewBook({ initialName }: { initialName: string | n
   });
 
   function handleSelectedBookChange(book: GoogleBook | null) {
-    console.log(book);
     if(book) {
       form.setValues({
         title: book.volumeInfo?.title,

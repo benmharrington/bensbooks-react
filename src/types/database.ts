@@ -17,6 +17,11 @@ export interface Book {
 export interface Author {
   id: string;
   name: string;
+  full_name: string;
+  birthdate: string | null;
+  deathdate: string | null;
+  birthplace: string;
+  link: string;
   bio: string;
   books: Book[];
 }

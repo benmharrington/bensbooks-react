@@ -68,7 +68,8 @@ export async function postProtectedData<T>(route: string, data: T): Promise<stri
 
   if (!response.ok) {
     // TODO: Handle errors properly
-    throw new Error('Failed to post protected data');
+    console.error(await response.text());
+    throw new Error(response.statusText);
   }
 
   return await response.json();

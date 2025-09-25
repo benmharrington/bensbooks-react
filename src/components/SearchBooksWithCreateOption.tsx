@@ -1,4 +1,4 @@
-import { Combobox, InputBase, Modal, Text, useCombobox } from '@mantine/core';
+import { Combobox, InputBase, Modal, useCombobox } from '@mantine/core';
 import { Book } from '../types/database';
 import { useState } from 'react';
 import { useDisclosure } from '@mantine/hooks';
@@ -71,7 +71,6 @@ export function SearchBooksWithCreateOption({ books }: { books: Book[] }) {
         </Combobox.Dropdown>
       </Combobox>
       <Modal opened={opened} onClose={close} title='Add New Book'>
-        <Text>Create a new book here</Text>
         <CreateNewBook initialName={newBook} />
       </Modal>
     </>
